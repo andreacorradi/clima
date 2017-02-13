@@ -1,0 +1,24 @@
+{
+  "name": "d3v4",
+  "version": "1.0.0",
+  "description": "",
+  "main": "viz.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "d3": "^4.5.0",
+    "d3-dsv": "^1.0.3",
+    "d3-selection": "^1.0.3",
+    "jquery": "^3.1.1",
+    "queue": "^4.2.1"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-browser-sync": "^2.2.0",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-watch": "^1.0.0"
+  }
+}

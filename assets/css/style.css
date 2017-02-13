@@ -1,0 +1,37 @@
+svg {
+	border: 1px solid black;
+}
+
+.line {
+  fill: none;
+  stroke: grey;
+  stroke-width: 1px;
+  stroke-opacity:.25;
+}
+
+.selected{
+  stroke-width: 4px;
+	stroke-opacity:1;
+}
+
+.tooltip {
+  font-family: 'Abril Fatface', Helvetica, Arial, sans-serif;
+  position: absolute;
+  display: none;
+  width: auto;
+  height: auto;
+  color: black;
+  font: 36px sans-serif;
+  padding: 5px;
+  text-align: center;
+}
+
+.line.maxAvgYear {
+  stroke: salmon !important;
+  stroke-opacity:1;
+}
+
+.line.minAvgYear {
+  stroke: steelblue !important;
+  stroke-opacity:1;
+}
