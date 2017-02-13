@@ -1,7 +1,7 @@
 (function (d3, $) {
   'use strict'
 
-  //var LineGraph = require('./linegraph.js')
+  var LineGraph = require('./linegraph.js')
   var currentLineGraph = null;
 
 	var tas,
