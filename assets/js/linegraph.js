@@ -36,16 +36,7 @@ function lineGraph() {
 
 	var labelLineGraph = d3.select("body").append("div").attr("class", "tooltip");
 
-	d3.select("#lineToggle").on("click", function(){
-		if (type=="pr"){
-			type = "tas";
-		} else {
-			type = "pr";
-		}
-		updateLine(type);
-	})
-
-
+	
 
 	self.updateLine = function (source) {
 
