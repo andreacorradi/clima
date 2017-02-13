@@ -1,36 +1,48 @@
-//Set the dimensions and margins of the graph
-var margin = {top: 20, right: 20, bottom: 30, left: 50},
-		width = 960 - margin.left - margin.right,
-		height = 500 - margin.top - margin.bottom;
+(function (d3, $) {
+  'use strict'
 
-var tas,
-		pr;
+  var LineGraph = require('./linegraph.js')
+  var currentLineGraph = null;
 
-var type = "pr";
+	//Set the dimensions and margins of the graph
+	var margin = {top: 20, right: 20, bottom: 30, left: 50},
+			width = 960 - margin.left - margin.right,
+			height = 500 - margin.top - margin.bottom;
 
-var spanNumber = 0; //years
+	var tas,
+			pr;
 
-var svgLineGraph = d3.select("body").append("svg")
-	.attr("id", "svgLineGraph")
-	.attr("width", width + margin.left + margin.right)
-	.attr("height", height + margin.top + margin.bottom)
-	.append("g")
-	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+	var type = "pr";
 
-d3.queue()
-  .defer(d3.csv, 'assets/data/tas5_1900_2012.csv')
-  .defer(d3.csv, 'assets/data/pr5_1900_2012.csv')
-  .await(dataprocess);
+	var spanNumber = 0; //years
 
-function dataprocess(error, tasData, prData) {
-	if (error) {
-    console.log(error);
-	} else {
-		tas = tasData;
-		pr = prData;
-		updateLine(type, spanNumber);
+	var svgLineGraph = d3.select("body").append("svg")
+		.attr("id", "svgLineGraph")
+		.attr("width", width + margin.left + margin.right)
+		.attr("height", height + margin.top + margin.bottom)
+		.append("g")
+		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+	d3.queue()
+	  .defer(d3.csv, 'assets/data/tas5_1900_2012.csv')
+	  .defer(d3.csv, 'assets/data/pr5_1900_2012.csv')
+	  .await(dataprocess);
+
+	function selectLineGraph() {
+		currentLineGraph = new LineGraph();
 	}
-}
+
+	function dataprocess(error, tasData, prData) {
+		if (error) {
+	    console.log(error);
+		} else {
+			tas = tasData;
+			pr = prData;
+			updateLine(type, spanNumber);
+		}
+	}
+
+}(window.d3, window.$))
 //Set the ranges
 var xLineGraph = d3.scaleLinear().range([0, width]);
 var yLineGraph = d3.scaleLinear().range([height, 0]);
