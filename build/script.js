@@ -1,38 +1,38 @@
-(function (d3, $) {
-  'use strict'
+var currentLineGraph = null;
 
-  var LineGraph = require('./linegraph.js')
-  var currentLineGraph = null;
+var tas,
+		pr;
 
-	var tas,
-			pr;
+var type = "pr";
 
-	var type = "pr";
+var spanNumber = 0; //years
 
-	var spanNumber = 0; //years
+d3.queue()
+  .defer(d3.csv, 'assets/data/tas5_1900_2012.csv')
+  .defer(d3.csv, 'assets/data/pr5_1900_2012.csv')
+  .await(dataprocess);
 
-	d3.queue()
-	  .defer(d3.csv, 'assets/data/tas5_1900_2012.csv')
-	  .defer(d3.csv, 'assets/data/pr5_1900_2012.csv')
-	  .await(dataprocess);
+selectLineGraph();
 
-	selectLineGraph();
+function selectLineGraph() {
+	currentLineGraph = new lineGraph();
+}
 
-	function selectLineGraph() {
-		currentLineGraph = new LineGraph();
+function dataprocess(error, tasData, prData) {
+	if (error) {
+    console.log(error);
+	} else {
+		tas = tasData;
+		pr = prData;
+		currentLineGraph.updateLine(type, spanNumber);
 	}
+}
 
-	function dataprocess(error, tasData, prData) {
-		if (error) {
-	    console.log(error);
-		} else {
-			tas = tasData;
-			pr = prData;
-			currentLineGraph.updateLine(type, spanNumber);
-		}
-	}
+d3.select("#lineToggle").on("click", function(){
+	if (type=="pr"){ type = "tas";} else { type = "pr";	}
+	currentLineGraph.updateLine(type, spanNumber);
+})
 
-}(window.d3, window.$))
 function lineGraph() {
 
 	var self = this;
@@ -71,16 +71,7 @@ function lineGraph() {
 
 	var labelLineGraph = d3.select("body").append("div").attr("class", "tooltip");
 
-	d3.select("#lineToggle").on("click", function(){
-		if (type=="pr"){
-			type = "tas";
-		} else {
-			type = "pr";
-		}
-		updateLine(type);
-	})
-
-
+	
 
 	self.updateLine = function (source) {
 
