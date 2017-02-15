@@ -18,7 +18,6 @@ function lineGraph(tasPar, prPar) {
 	var xLineGraph = d3.scaleLinear().range([0, width]);
 	var yLineGraph = d3.scaleLinear().range([height, 0]);
 
-
 	//Add the X Axis
 	var xAxisLineGraph = svgLineGraph.append("g")
 		.attr("transform", "translate(0," + height + ")");
@@ -35,21 +34,17 @@ function lineGraph(tasPar, prPar) {
 			d.mese = +d.mese;
 			d.valore = +d.valore;
 		});
-
 		//Scale the range of the data
 		xLineGraph.domain(d3.extent(dataPar, function(d) {return d.mese; }));
 		var yMax = d3.max(dataPar, function(d) {
 			return d.valore;
 		})
-
 		yLineGraph.domain([0, yMax]);
-
 		var dataYears = d3.nest()
       .key(function(d){
       	return d.anno;
       })
       .entries(dataPar);
-
      return dataYears;
 	}
 
