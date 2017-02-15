@@ -1,8 +1,5 @@
 var currentLineGraph = null;
 
-var tas,
-		pr;
-
 var type = "pr";
 
 var spanNumber = 0; //years
@@ -16,15 +13,13 @@ function dataprocess(error, tasData, prData) {
 	if (error) {
     console.log(error);
 	} else {
-		tas = tasData;
-		pr = prData;
-		currentLineGraph = new lineGraph();
+		currentLineGraph = new lineGraph(tasData, prData);
 		currentLineGraph.updateLine(type);
 	}
 }
 
 d3.select("#lineToggle").on("click", function(){
-	if (type=="pr"){ type = "tas";} else { type = "pr";	}
+	type==="pr" ? type = "tas" : type = "pr";
 	currentLineGraph.updateLine(type);
 })
 

@@ -1,4 +1,4 @@
-function lineGraph() {
+function lineGraph(tasPar, prPar) {
 
 	var self = this;
 
@@ -18,121 +18,121 @@ function lineGraph() {
 	var xLineGraph = d3.scaleLinear().range([0, width]);
 	var yLineGraph = d3.scaleLinear().range([height, 0]);
 
-	//Define the line
-	var valueline = d3.line()
-								.x(function(d) {
-									return xLineGraph(d.mese);
-								})
-								.y(function(d) {
-									return yLineGraph(d.valore);
-								});
 
 	//Add the X Axis
 	var xAxisLineGraph = svgLineGraph.append("g")
-		.attr("transform", "translate(0," + height + ")")
+		.attr("transform", "translate(0," + height + ")");
 
 	//Add the Y Axis
-	var yAxisLineGraph = svgLineGraph.append("g")
-
-	var labelLineGraph = d3.select("body").append("div").attr("class", "tooltip");
+	var yAxisLineGraph = svgLineGraph.append("g");
 
 
-
-	self.updateLine = function (source) {
-
-		source==="pr" ? data = pr : data = tas;
-
+	// *** FORMAT DATA ***
+	function formatData(dataPar) {
 		//Format the data
-		data.forEach(function(d) {
+		dataPar.forEach(function(d) {
 			d.anno = +d.anno;
 			d.mese = +d.mese;
 			d.valore = +d.valore;
 		});
 
 		//Scale the range of the data
-		xLineGraph.domain(d3.extent(data, function(d) {return d.mese; }));
-		var yMax = d3.max(data, function(d) {
+		xLineGraph.domain(d3.extent(dataPar, function(d) {return d.mese; }));
+		var yMax = d3.max(dataPar, function(d) {
 			return d.valore;
 		})
+
 		yLineGraph.domain([0, yMax]);
 
-		var years = d3.nest()
-                .key(function(d){
-                	return d.anno;
-                })
-                .entries(data);
-		
-		//console.log(years);
+		var dataYears = d3.nest()
+      .key(function(d){
+      	return d.anno;
+      })
+      .entries(dataPar);
 
+     return dataYears;
+	}
+
+
+	// *** GENERATE SEASON ***
+	function generateSeason(dataPar, mese1, mese2, mese3) {
+		var filtered = [];
+		dataPar.forEach(function (d) {
+			var filteredMonths = d.values.filter(function (e) {
+				return e.mese==mese1 || e.mese==mese2 || e.mese==mese3;
+			})
+			filtered.push({
+				key: d.key,
+				values: filteredMonths
+			})
+		})
+		return filtered;
+	}
+
+
+	// *** CALCULATE MAX & MIN AVG ***
+	function maxminAvg(dataPar, period) {
+		var maxAvg,
+				minAvg,
+				maxAvgYear,
+				minAvgYear;
+		var temp,
+				timeSpan;
+		if (period=="years") timeSpan = dataPar;
+		else if (period=="winter") timeSpan = generateSeason(dataPar, 12, 1, 2);
+		else if (period=="summer") timeSpan = generateSeason(dataPar, 3, 4, 5);
+		var valoreAvg = []; //valori medi sul numero di mesi contenuti in period (years, winter, summer)
+		timeSpan.forEach(function (d) {
+			var singleAvg = d3.mean(d.values, function(e) { return e.valore; });
+			valoreAvg.push({
+				anno: +d.key,
+				avg: singleAvg
+			})
+		})
+		maxAvg = d3.max(valoreAvg, function (d) {	return d.avg;	});
+		minAvg = d3.min(valoreAvg, function (d) {	return d.avg;	});
+		valoreAvg.forEach(function (d) {
+			if (d.avg==maxAvg) { maxAvgYear = d.anno; } 
+			if (d.avg==minAvg) { minAvgYear = d.anno; }
+		})
+		temp = {
+			span: period,
+			maxyear: maxAvgYear,
+			max: maxAvg,
+			minyear: minAvgYear,
+			min: minAvg,
+		}
+		return temp;
+		// console.log("maxYear: "+maxAvgYear+", maxAvg: "+maxAvg)
+		// console.log("minYear: "+minAvgYear+", minAvg: "+minAvg)
+	}
+
+
+	// *** UPDATE LINE ***
+	self.updateLine = function (typePar) {
+
+		var data;
+		var labelLineGraph = d3.select("body").append("div").attr("class", "tooltip"); //Tooltip
+
+		//Define the line
+		var valueline = d3.line()
+									.x(function(d) {
+										return xLineGraph(d.mese);
+									})
+									.y(function(d) {
+										return yLineGraph(d.valore);
+									});
+
+		typePar==="pr" ? data = prPar : data = tasPar;
+
+		var years = formatData(data);
 
 		//*** STATISTICS ***//
-
 		var avgs = [];
-
-		function generateSeason(mese1, mese2, mese3) {
-			var filtered = [];
-			years.forEach(function (d) {
-				var filteredMonths = d.values.filter(function (e) {
-					return e.mese==mese1 || e.mese==mese2 || e.mese==mese3;
-				})
-				filtered.push({
-					key: d.key,
-					values: filteredMonths
-				})
-			})
-			return filtered;
-		}
-
-		function maxminAvg(period) {
-			var maxAvg,
-					minAvg,
-					maxAvgYear,
-					minAvgYear;
-			var temp,
-					timespan;
-			if (period==years) timespan = "years";
-			else if (period==winter) timespan = "winter";
-			else if (period==summer) timespan = "summer";
-			var valoreAvg = []; //valori medi sul numero di mesi contenuti in period (years, winter, summer)
-			period.forEach(function (d) {
-				var singleAvg = d3.mean(d.values, function(e) { return e.valore; });
-				valoreAvg.push({
-					anno: +d.key,
-					avg: singleAvg
-				})
-			})
-			maxAvg = d3.max(valoreAvg, function (d) {	return d.avg;	});
-			minAvg = d3.min(valoreAvg, function (d) {	return d.avg;	});
-			valoreAvg.forEach(function (d) {
-				if (d.avg==maxAvg) { maxAvgYear = d.anno; } 
-				if (d.avg==minAvg) { minAvgYear = d.anno; }
-			})
-			temp = {
-				span: timespan,
-				maxyear: maxAvgYear,
-				max: maxAvg,
-				minyear: minAvgYear,
-				min: minAvg,
-			}
-			return temp;
-			// console.log("maxYear: "+maxAvgYear+", maxAvg: "+maxAvg)
-			// console.log("minYear: "+minAvgYear+", minAvg: "+minAvg)
-		}
-
-		var winter = generateSeason(12, 1, 2);
-		var spring = generateSeason(3, 4, 5);
-		var summer = generateSeason(6, 7, 8);
-		var autumn = generateSeason(9, 10, 11);
-
-		// console.log(winter);
-		// console.log(summer);
-
-		avgs.push(maxminAvg(years));
-		avgs.push(maxminAvg(winter));
-		avgs.push(maxminAvg(summer));
-
+		avgs.push(maxminAvg(years, "years"));
+		avgs.push(maxminAvg(years, "winter"));
+		avgs.push(maxminAvg(years, "summer"));
 		console.log(avgs)
-
 		//*** END STATISTICS ***//
 		
     var lines = svgLineGraph.selectAll(".line")
@@ -206,7 +206,7 @@ function lineGraph() {
 		yAxisLineGraph
 			.call(d3.axisLeft(yLineGraph));
 
-		//update time span
+		//*** UPDATE TIME SPAN ***//
 		self.updateStats = function (span) {
 			svgLineGraph.selectAll(".line")
 	  		.data(years)
@@ -222,6 +222,6 @@ function lineGraph() {
 	      })
 		}
 
-	} //END updateLine
+	} // *** end UPDATE LINE ***
 
 }
