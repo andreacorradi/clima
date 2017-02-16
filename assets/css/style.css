@@ -35,3 +35,19 @@ svg {
   stroke: steelblue !important;
   stroke-opacity:1;
 }
+
+#lineGraphContainer {
+  display: flex;
+  align-items: flex-end;
+}
+
+button .auxButton {
+  flex: 1;
+}
+
+#ui {
+  display: flex;
+  justify-content: space-between;
+  width:960px;
+  margin-top: 20px;
+}

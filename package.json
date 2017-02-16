@@ -14,7 +14,8 @@
     "d3-selection": "^1.0.3",
     "jquery": "^3.1.1",
     "queue": "^4.2.1",
-    "requirejs": "^2.3.2"
+    "requirejs": "^2.3.2",
+    "stateman": "^0.3.0-beta.1"
   },
   "devDependencies": {
     "grunt": "^1.0.1",
