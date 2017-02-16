@@ -6,11 +6,10 @@ function lineGraph(tasPar, prPar) {
 	var margin = {top: 20, right: 20, bottom: 30, left: 50},
 			width = 960 - margin.left - margin.right,
 			height = 500 - margin.top - margin.bottom;
-			// width = "100%" - margin.left - margin.right,
-			// height = "100%" - margin.top - margin.bottom;
 
 	var svgLineGraph = d3.select("#lineGraphContainer svg")
 		.attr("id", "svgLineGraph")
+		.attr("viewBox", "0 0 960 500") 
 		.attr("preserveAspectRatio", "xMinYMin meet")
 		.attr("width", width + margin.left + margin.right)
 		.attr("height", height + margin.top + margin.bottom)
