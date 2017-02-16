@@ -39,6 +39,7 @@ svg {
 #lineGraphContainer {
   display: flex;
   align-items: flex-end;
+  height: 90vh;
 }
 
 button .auxButton {
@@ -48,6 +49,5 @@ button .auxButton {
 #ui {
   display: flex;
   justify-content: space-between;
-  width:960px;
   margin-top: 20px;
 }
