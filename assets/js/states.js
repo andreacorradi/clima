@@ -1,21 +1,42 @@
-// ;(function (window, $, undefined) {
+function States() {
 
-// 	'use strict'
+	var stator = new StateMan()
+	var timeline = ["linegraph0", "linegraph1", "linegraph2", "linegraph3"]
+  var currentStep = 0
 
-// 	$(document).ready(function(){
+  stator.timeline = timeline
+  stator.currentStep = currentStep
+	stator.forward = moveForward
+	stator.backward = moveBackward
+	stator.init = init
 
-		window.myState = new StateMan();
-		window.myState.direction = 'up'
+	stator.state({
+    "linegraph0": new linegraph0(),
+    "linegraph1": new linegraph1(),
+    "linegraph2": new linegraph2(),
+    "linegraph3": new linegraph3()
+	})
 
-		window.myState.state({
+	function init(){
+		stator.go(timeline[0], {encode: false})
+	}
 
-      "linegraph0": new linegraph0(),
-      "linegraph1": new linegraph1(),
-      "linegraph2": new linegraph2(),
-      "linegraph3": new linegraph3()
+	function moveForward(){
+		if (currentStep<timeline.length-1) {
+			currentStep++
+			stator.go(timeline[currentStep], {encode: false})
+		}
+		console.log("forward, "+currentStep)
+	}
 
-		}).start({});     
+	function moveBackward(){
+		if (currentStep>=1) {
+			currentStep--
+			stator.go(timeline[currentStep], {encode: false})
+		}
+		console.log("backward, "+currentStep)
+	}
+	
+	return stator
 
-// 	})
-
-// })(window, window.jQuery);
+}

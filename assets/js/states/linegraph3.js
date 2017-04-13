@@ -3,7 +3,7 @@ function linegraph3(){
 	var obj = {
   	enter: function(option){
       console.log("LG3 enter");
-      currentLineGraph.updateLine("pr");
+      APP.currentLineGraph.updateLine("pr");
   	},
   	leave: function(option){
       console.log("LG3 exit");

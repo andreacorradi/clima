@@ -5,19 +5,15 @@
 	<link href="https://fonts.googleapis.com/css?family=Abril+Fatface" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 	<title>Temperature and rainfall in Italy</title>
-	<script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
-	<script type="text/javascript" src="node_modules/d3/build/d3.min.js"></script>
-	<script type="text/javascript" src="node_modules/d3-queue/build/d3-queue.min.js"></script>
-	<script type="text/javascript" src="node_modules/stateman/stateman.min.js"></script>
 </head>
 <body>
 
 	<div id="lineGraphContainer">
 		<svg id="lineGraphSvg"></svg>
-		<!-- <button id="lineToggle" class="auxButton">toggle</button>
+		<button id="lineToggle" class="auxButton">toggle</button>
 		<button id="year" class="auxButton">year</button>
 		<button id="winter" class="auxButton">winter</button>
-		<button id="summer" class="auxButton">summer</button> -->
+		<button id="summer" class="auxButton">summer</button>
 	</div>
 
 	<div id="ui">		
@@ -41,6 +37,11 @@
     $(window).on("ready", resize).trigger("resize");
   </script> -->
 
+	<script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
+	<script type="text/javascript" src="node_modules/d3/build/d3.min.js"></script>
+	<script type="text/javascript" src="node_modules/d3-queue/build/d3-queue.min.js"></script>
+	<script type="text/javascript" src="node_modules/stateman/stateman.min.js"></script>
+
 	<script type="text/javascript" src="assets/js/states/linegraph0.js"></script>
 	<script type="text/javascript" src="assets/js/states/linegraph1.js"></script>
 	<script type="text/javascript" src="assets/js/states/linegraph2.js"></script>
@@ -48,7 +49,7 @@
 	<script type="text/javascript" src="assets/js/states.js"></script>
 	
 	<script type="text/javascript" src="assets/js/linegraph.js"></script>
-	<script type="text/javascript" src="assets/js/main.js"></script>
+	<script type="text/javascript" src="assets/js/app.js"></script>
 
 </body>
 </html>

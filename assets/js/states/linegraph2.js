@@ -3,8 +3,8 @@ function linegraph2(){
 	var obj = {
   	enter: function(option){
       console.log("LG2 enter");
-      spanNumber = 1;
-      currentLineGraph.updateStats(spanNumber);
+      APP.spanNumber = 1;
+      APP.currentLineGraph.updateStats(APP.spanNumber);
   	},
   	leave: function(option){
       console.log("LG2 exit");
