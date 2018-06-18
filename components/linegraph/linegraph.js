@@ -1,76 +1,18 @@
-;(function(window, $, undefined) {
-
-	window.APP = window.APP || {}
-
-	APP.currentLineGraph = null
-	APP.type = "pr"
-	APP.spanNumber = 0 //years
-
-	APP.init = function init() {
-
-		APP.stator = new States()
-
-		d3.queue()
-		  .defer(d3.csv, 'assets/data/tas5_1900_2012.csv')
-		  .defer(d3.csv, 'assets/data/pr5_1900_2012.csv')
-		  .await(dataprocess)
-		function dataprocess(error, tasData, prData) {
-			if (error) {
-		    console.error(error);
-			} else {
-				APP.currentLineGraph = new lineGraph(tasData, prData);
-				APP.stator.start().init()
-			}
-		}
-
-		// listeners
-		$("#back").click(APP.stator.backward)
-		$("#next").click(APP.stator.forward)
-		d3.select("#lineToggle").on("click", function(){
-			APP.type==="pr" ? APP.type = "tas" : APP.type = "pr"
-			APP.currentLineGraph.updateLine(APP.type)
-		})
-		d3.select("#year").on("click", function(){
-			APP.spanNumber = 0
-			APP.currentLineGraph.updateStats(APP.spanNumber)
-		})
-		d3.select("#winter").on("click", function(){
-			APP.spanNumber = 1
-			APP.currentLineGraph.updateStats(APP.spanNumber)
-		})
-		d3.select("#summer").on("click", function(){
-			APP.spanNumber = 2
-			APP.currentLineGraph.updateStats(APP.spanNumber)
-		})
-	}
-
-
-	$(document).ready(APP.init)
-
-})(window, jQuery)
 function lineGraph(tasPar, prPar) {
 
 	var self = this
 
 	//Set the dimensions and margins of the graph
 	var margin = {top: 20, right: 20, bottom: 30, left: 50},
-			// width = 960 - margin.left - margin.right,
-			// height = 500 - margin.top - margin.bottom
-			width = $("#lineGraphContainer").width() - margin.left - margin.right
-			height = $("#lineGraphContainer").height() - margin.top - margin.bottom
-
-			console.log($("#lineGraphContainer").width())
-			console.log($("#lineGraphContainer").height())
+		width = $("#lineGraphContainer").width() - margin.left - margin.right
+		height = $("#lineGraphContainer").height() - margin.top - margin.bottom
 
 	var svgLineGraph = d3.select("#lineGraphContainer svg")
 		.attr("id", "svgLineGraph")
-		//.attr("viewBox", "0 0 960 500") 
-		.attr("viewBox", "0 0 "+width+" "+height) 
-		.attr("preserveAspectRatio", "xMinYMin meet")
 		.attr("width", width + margin.left + margin.right)
 		.attr("height", height + margin.top + margin.bottom)
 		.append("g")
-		.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+			.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 
 	//Set the ranges
 	var xLineGraph = d3.scaleLinear().range([0, width])
@@ -133,7 +75,7 @@ function lineGraph(tasPar, prPar) {
 				timeSpan;
 		if (period=="years") timeSpan = dataPar
 		else if (period=="winter") timeSpan = generateSeason(dataPar, 12, 1, 2)
-		else if (period=="summer") timeSpan = generateSeason(dataPar, 3, 4, 5)
+		else if (period=="summer") timeSpan = generateSeason(dataPar, 6, 7, 8)
 		var valoreAvg = []; //valori medi sul numero di mesi contenuti in period (years, winter, summer)
 		timeSpan.forEach(function (d) {
 			var singleAvg = d3.mean(d.values, function(e) { return e.valore; })
@@ -191,14 +133,23 @@ function lineGraph(tasPar, prPar) {
     var lines = svgLineGraph.selectAll(".line")
     	.data(years)
 
+    var yearScale = d3.scaleLinear()
+    									.domain(['1900', '2012'])
+    									.range([0, 100])
+
     var newlines = lines
     	.enter()
     	.append("path")
-    	//.attr("class", "line")
     	.attr("class", function(d){
-    		if (+d.key==avgs[APP.spanNumber].maxyear) return "line maxAvgYear"
-    		else if (+d.key==avgs[APP.spanNumber].minyear) return "line minAvgYear"
-    		else return "line"
+    		if (typePar==='tas'){	
+	    		if (+d.key==avgs[APP.spanNumber].maxyear) return "line maxAvgYear"
+	    		else if (+d.key==avgs[APP.spanNumber].minyear) return "line minAvgYear"
+	    		else return "line"
+    		} else {
+    			if (+d.key==avgs[APP.spanNumber].maxyear) return "line minAvgYear"
+	    		else if (+d.key==avgs[APP.spanNumber].minyear) return "line maxAvgYear"
+	    		else return "line"
+    		}
     	})
 
     newlines
@@ -215,7 +166,7 @@ function lineGraph(tasPar, prPar) {
       .on("mouseover", function(d, i) {
       	d3.select(this).classed("selected", true)
 				labelLineGraph.style("left", d3.event.pageX+10+"px")
-				labelLineGraph.style("top", d3.event.pageY-25+"px")
+				labelLineGraph.style("top", d3.event.pageY-50+"px")
 				labelLineGraph.style("display", "inline-block")
 				labelLineGraph.html(d.key)
       })
@@ -231,9 +182,15 @@ function lineGraph(tasPar, prPar) {
     		return i*10
     	})
     	.attr("class", function(d){
-    		if (+d.key==avgs[APP.spanNumber].maxyear) return "line maxAvgYear"
-    		else if (+d.key==avgs[APP.spanNumber].minyear) return "line minAvgYear"
-    		else return "line"
+    		if (typePar==='tas'){	
+	    		if (+d.key==avgs[APP.spanNumber].maxyear) return "line maxAvgYear"
+	    		else if (+d.key==avgs[APP.spanNumber].minyear) return "line minAvgYear"
+	    		else return "line"
+    		} else {
+    			if (+d.key==avgs[APP.spanNumber].maxyear) return "line minAvgYear"
+	    		else if (+d.key==avgs[APP.spanNumber].minyear) return "line maxAvgYear"
+	    		else return "line"
+    		}
     	})
       .attr("d", function(d){
       	return valueline(d.values)
@@ -243,7 +200,7 @@ function lineGraph(tasPar, prPar) {
       .on("mouseover", function(d, i) {
       	d3.select(this).classed("selected", true)
 				labelLineGraph.style("left", d3.event.pageX+10+"px")
-				labelLineGraph.style("top", d3.event.pageY-25+"px")
+				labelLineGraph.style("top", d3.event.pageY-50+"px")
 				labelLineGraph.style("display", "inline-block")
 				labelLineGraph.html(d.key)
       })
@@ -263,12 +220,16 @@ function lineGraph(tasPar, prPar) {
 		self.updateStats = function (span) {
 			svgLineGraph.selectAll(".line")
 	  		.data(years)
-	    	.transition()
-	    	.duration(1000)
 	    	.attr("class", function(d){
-	    		if (+d.key==avgs[span].maxyear) return "line maxAvgYear"
-	    		else if (+d.key==avgs[span].minyear) return "line minAvgYear"
-	    		else return "line"
+	    		if (typePar==='tas'){	
+		    		if (+d.key==avgs[APP.spanNumber].maxyear) return "line maxAvgYear"
+		    		else if (+d.key==avgs[APP.spanNumber].minyear) return "line minAvgYear"
+		    		else return "line"
+	    		} else {
+	    			if (+d.key==avgs[APP.spanNumber].maxyear) return "line minAvgYear"
+		    		else if (+d.key==avgs[APP.spanNumber].minyear) return "line maxAvgYear"
+		    		else return "line"
+	    		}
 	    	})
 	      .attr("d", function(d){
 	      	return valueline(d.values)

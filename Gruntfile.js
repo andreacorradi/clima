@@ -5,7 +5,7 @@ module.exports = function(grunt) {
 
 		concat: {
 			js: {
-				src: ['assets/js/main.js', 'assets/js/linegraph.js'],
+				src: ['assets/js/app.js', 'assets/js/linegraph.js'],
 				dest: 'build/script.js',
 			},
 		},

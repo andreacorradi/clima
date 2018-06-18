@@ -2,54 +2,61 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<link href="https://fonts.googleapis.com/css?family=Abril+Fatface" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+	<link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,600" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="node_modules/normalize.css/normalize.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="components/linegraph/linegraph.css">
+	<link rel="stylesheet" type="text/css" href="components/ui/ui.css">
 	<title>Temperature and rainfall in Italy</title>
 </head>
+
 <body>
 
-	<div id="lineGraphContainer">
-		<svg id="lineGraphSvg"></svg>
-		<button id="lineToggle" class="auxButton">toggle</button>
-		<button id="year" class="auxButton">year</button>
-		<button id="winter" class="auxButton">winter</button>
-		<button id="summer" class="auxButton">summer</button>
-	</div>
+	<main>
 
-	<div id="ui">		
-		<button id="back" class="uiButton">back</button>
-		<button id="next" class="uiButton">next</button>
-	</div>
+		<div class="view" id="intro-container">
+			<div id="intro">
+				<div id="intro-title">La stagioni hanno la memoria corta</div>
+				<div id="intro-text">“È l'estate più calda del secolo!”<br/>“È l'inverno più piovoso che si sia mai visto!”<br/>Quando si parla di clima tendiamo ad amplificare le sensazioni del momento: l'ultima estate ci pare spesso la più calda, l'ultimo inverno il più rigido. Quali sono stati realmente gli anni più caldi, freddi, secchi e umidi? E le stagioni? I dati analizzati vanno dal 1900 al 2012.</div>
+			</div>
+		</div>
 
-	<!-- <script>
-    //Responsive SVG
-    var chart = $("#svgLineGraph"),
-      aspect = chart.width() / chart.height(),
-      container = chart.parent(),
-      ui = $("#ui");
-    var resize = function() {
-      var targetWidth = container.width();
-      chart.attr("width", targetWidth);
-      chart.attr("height", Math.round(targetWidth / aspect));
-      ui.attr("width", targetWidth);
-    };
-    $(window).on("resize", resize).trigger("resize");
-    $(window).on("ready", resize).trigger("resize");
-  </script> -->
+		<div class="view" id="linegraph-container">
+			<header>
+				<h1>Titolo</h1>
+				<h3></h3>
+				<p></p>
+			</header>
+			
+			<div id="lineGraphContainer">
+				<svg id="lineGraphSvg"></svg>
+			</div>
+
+			<footer></footer>
+		</div>
+
+		<div id="ui" process="components/ui/_ui.html" process-keep></div>
+
+	</main>
 
 	<script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
 	<script type="text/javascript" src="node_modules/d3/build/d3.min.js"></script>
 	<script type="text/javascript" src="node_modules/d3-queue/build/d3-queue.min.js"></script>
+	<script type="text/javascript" src="node_modules/lodash/lodash.js"></script>
 	<script type="text/javascript" src="node_modules/stateman/stateman.min.js"></script>
 
-	<script type="text/javascript" src="assets/js/states/linegraph0.js"></script>
-	<script type="text/javascript" src="assets/js/states/linegraph1.js"></script>
-	<script type="text/javascript" src="assets/js/states/linegraph2.js"></script>
-	<script type="text/javascript" src="assets/js/states/linegraph3.js"></script>
-	<script type="text/javascript" src="assets/js/states.js"></script>
+	<script type="text/javascript" src="js/states/intro-state.js"></script>
+	<script type="text/javascript" src="js/states/linegraph-state.js"></script>
+	<script type="text/javascript" src="js/states.js"></script>
 	
-	<script type="text/javascript" src="assets/js/linegraph.js"></script>
-	<script type="text/javascript" src="assets/js/app.js"></script>
+	<script type="text/javascript" src="components/ui/ui.js"></script>
+	<script type="text/javascript" src="components/linegraph/linegraph.js"></script>
+	<script type="text/javascript" src="js/app.js"></script>
+
+  <script type="text/javascript" src="node_modules/static-player/static-player.js"></script>
+  <script type="text/javascript">
+    window.StaticPlayer.getInstance().begin()
+  </script>
 
 </body>
 </html>

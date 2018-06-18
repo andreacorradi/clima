@@ -1,0 +1,49 @@
+#ui {
+  display: flex;
+  flex-direction: column;
+  pointer-events: none;
+}
+
+#ui #season-buttons {
+  flex: 1;
+  width: 100%;
+}
+
+#ui #season-nav {
+  flex: 1;
+  width: 100%;
+}
+
+#ui #nav-buttons {
+  display: flex;
+  flex: 9;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+#ui #nav-buttons button {
+  height: 2rem;
+  width: 4.5rem;
+  pointer-events: all;
+  background: none;
+  border-color: black;
+  border-radius: 4px;
+}
+
+#ui #nav-buttons button:hover {
+  font-weight: bold;
+  border-width: 2px;
+}
+
+#ui #nav-buttons button:focus {
+  outline: none;
+}
+
+#ui #nav-buttons #dummy {
+  width: 0;
+  height: 0;
+  display: none;
+}

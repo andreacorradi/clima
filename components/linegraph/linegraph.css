@@ -1,0 +1,33 @@
+.line {
+  fill: none;
+  stroke: grey;
+  stroke-width: 1px;
+  stroke-opacity:.25;
+}
+
+.line.selected{
+  stroke-width: 4px;
+  stroke-opacity:1;
+}
+
+.tooltip {
+  position: absolute;
+  display: none;
+  width: auto;
+  height: auto;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 2rem;
+  color: black;
+  padding: 5px;
+  text-align: center;
+}
+
+.line.maxAvgYear {
+  stroke: salmon;
+  stroke-opacity:1;
+}
+
+.line.minAvgYear {
+  stroke: steelblue;
+  stroke-opacity:1;
+}
