@@ -20,6 +20,8 @@ A very basic **components** structure has been set up in *components* folder:
 
 The ui html fragment are injected into *index.html* using [static player](https://github.com/abusedmedia/static-player) library.
 
+The **grunt** tasks are related to old versions and have not been updated, so please don't consider them.
+
 ### Next steps
 Now the application is really basic in visual, narrative and functional sides.
 About the functional side, here is a memo of some functional tasks to be implemented to improve the current version:
