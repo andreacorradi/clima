@@ -18,7 +18,7 @@ A very basic **components** structure has been set up in *components* folder:
 
 * *Ui*: user interface (now basically the navigation buttons only).
 
-The ui html fragment are injected into index.html using [static player] (https://github.com/abusedmedia/static-player) library.
+The ui html fragment are injected into *index.html* using [static player](https://github.com/abusedmedia/static-player) library.
 
 ### Next steps
 Now the application is really basic in visual, narrative and functional sides.
