@@ -43,7 +43,7 @@ main {
 
 #intro {
   width: 60%;
-  height: 40%;
+  height: 60%;
 }
 
 #intro-title {
@@ -54,6 +54,17 @@ main {
 #intro-text {
   font-size: 1.6rem;
   line-height: 2.2rem;
+}
+
+#intro-animation {
+  display: flex;
+  justify-content: center;
+}
+
+#intro-animation svg {
+  width: 16rem;
+  height: 16rem;
+  opacity: 1;
 }
 
 header {
